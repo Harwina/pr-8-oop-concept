@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: 50px 0;
+            font-size: 18px;
+            text-align: left;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Data Table</h1>
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+    let data = [
+    {
+        name: "jay",
+        email: "jay@gmail.com",
+        phone: "12345",
+    },
+    {
+        name: "ajay",
+        email: "ajay@gmail.com",
+        phone: "12345",
+    },
+    {
+        name: "vijay",
+        email: "vijay@gmail.com",
+        phone: "12345",
+    },
+    {
+        name: "ashish",
+        email: "ashish@gmail.com",
+        phone: "12345",
+    },
+];
+
+class Person {
+    constructor(name, email, phone) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+    }
+
+    render() {
+        return `
+            <tr>
+                <td>${this.name}</td>
+                <td>${this.email}</td>
+                <td>${this.phone}</td>
+            </tr>
+        `;
+    }
+}
+
+function tableData(data) {
+    let tableBody = document.getElementById('dataTable').querySelector('tbody');
+    data.map(item => {
+        let person = new Person(item.name, item.email, item.phone);
+        let row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${person.name}</td>
+            <td>${person.email}</td>
+            <td>${person.phone}</td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+tableData(data);
+</script>
+</body>
+</html>

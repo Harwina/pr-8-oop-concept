@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Management</title>
+    <style>
+        table {
+            width: 50%;
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Restaurant Management System</h1>
+    <form id="menuItemForm">
+        <label for="itemName">Item Name:</label>
+        <input type="text" id="itemName" required>
+        <br>
+        <label for="price">Price:</label>
+        <input type="number" id="price" required>
+        <br>
+        <label for="rating">Rating:</label>
+        <input type="number" id="rating" min="1" max="5" required>
+        <br>
+        <button type="button" onclick="addItem()">Add Item</button>
+    </form>
+
+    <h2>Menu</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Price</th>
+                <th>Rating</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="menuTable">
+        </tbody>
+    </table>
+
+    <h2>Average Rating: <span id="averageRating">0</span></h2>
+
+    <script>
+        class Restaurant {
+            constructor() {
+                this.menuItems = [];
+            }
+
+            addItem(name, price, rating) {
+                this.menuItems.push({ name, price, rating });
+            }
+
+            removeItem(index) {
+                this.menuItems.splice(index, 1);
+            }
+
+            calculateAverageRating() {
+                const totalRating = this.menuItems.reduce((sum, item) => sum + item.rating, 0);
+                return (this.menuItems.length === 0) ? 0 : (totalRating / this.menuItems.length).toFixed(2);
+            }
+
+            getItems() {
+                return this.menuItems;
+            }
+        }
+
+        const restaurant = new Restaurant();
+
+        function addItem() {
+            const name = document.getElementById('itemName').value;
+            const price = parseFloat(document.getElementById('price').value);
+            const rating = parseFloat(document.getElementById('rating').value);
+
+            if (name && price && rating) {
+                restaurant.addItem(name, price, rating);
+                updateMenuTable();
+                updateAverageRating();
+                document.getElementById('menuItemForm').reset();
+            } else {
+                alert('Please fill out all fields.');
+            }
+        }
+
+        function removeItem(index) {
+            restaurant.removeItem(index);
+            updateMenuTable();
+            updateAverageRating();
+        }
+
+        function updateMenuTable() {
+            const items = restaurant.getItems();
+            const tableBody = document.getElementById('menuTable');
+            tableBody.innerHTML = '';
+
+            items.forEach((item, index) => {
+                const row = document.createElement('tr');
+
+                row.innerHTML = `
+                    <td>${item.name}</td>
+                    <td>${item.price}</td>
+                    <td>${item.rating}</td>
+                    <td><button onclick="removeItem(${index})">Remove</button></td>
+                `;
+
+                tableBody.appendChild(row);
+            });
+        }
+
+        function updateAverageRating() {
+            const averageRating = restaurant.calculateAverageRating();
+            document.getElementById('averageRating').innerText = averageRating;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplication Table</title>
+    <style>
+        table {
+            width: 30%;
+            border-collapse: collapse;
+            margin: 50px 0;
+            font-size: 18px;
+            text-align: left;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Multiplication Table</h1>
+    <input type="number" id="numberInput" placeholder="Enter a number">
+    <button onclick="generateTable()">Generate Table</button>
+    <table id="multiplicationTable">
+        <thead>
+            <tr>
+                <th>Multiplicand</th>
+                <th>Multiplier</th>
+                <th>Product</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        class MultiplicationTable {
+            constructor(number) {
+                this.number = number;
+            }
+
+            generate() {
+                let tableBody = document.getElementById('multiplicationTable').querySelector('tbody');
+                tableBody.innerHTML = ''; // Clear any existing rows
+                let i = 1;
+                do {
+                    let row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${this.number}</td>
+                        <td>${i}</td>
+                        <td>${this.number * i}</td>
+                    `;
+                    tableBody.appendChild(row);
+                    i++;
+                } while (i <= 10);
+            }
+        }
+
+        function generateTable() {
+            let number = document.getElementById('numberInput').value;
+            if (number) {
+                let multiplicationTable = new MultiplicationTable(number);
+                multiplicationTable.generate();
+            } else {
+                alert('Please enter a number');
+            }
+        }
+    </script>
+</body>
+</html>
+

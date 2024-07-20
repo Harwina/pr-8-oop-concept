@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library System</title>
+</head>
+<body>
+    <h1>Library System</h1>
+    <form id="bookForm">
+        <label for="title">Book Title:</label>
+        <input type="text" id="title" required>
+        <br>
+        <label for="author">Author:</label>
+        <input type="text" id="author" required>
+        <br>
+        <button type="button" onclick="addBook()">Add Book</button>
+    </form>
+
+    <h2>Book Collection</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="bookTable">
+        </tbody>
+    </table>
+
+    <script>
+        class Library {
+            constructor() {
+                this.books = [];
+            }
+
+            addBook(title, author) {
+                this.books.push({ title, author });
+            }
+
+            removeBook(index) {
+                this.books.splice(index, 1);
+            }
+
+            getBooks() {
+                return this.books;
+            }
+        }
+
+        const library = new Library();
+
+        function addBook() {
+            const title = document.getElementById('title').value;
+            const author = document.getElementById('author').value;
+
+            if (title && author) {
+                library.addBook(title, author);
+                updateBookTable();
+                document.getElementById('bookForm').reset();
+            } else {
+                alert('Please fill out all fields.');
+            }
+        }
+
+        function removeBook(index) {
+            library.removeBook(index);
+            updateBookTable();
+        }
+
+        function updateBookTable() {
+            const books = library.getBooks();
+            const tableBody = document.getElementById('bookTable');
+            tableBody.innerHTML = '';
+
+            books.forEach((book, index) => {
+                const row = document.createElement('tr');
+
+                row.innerHTML = `
+                    <td>${book.title}</td>
+                    <td>${book.author}</td>
+                    <td><button onclick="removeBook(${index})">Remove</button></td>
+                `;
+
+                tableBody.appendChild(row);
+            });
+        }
+    </script>
+</body>
+</html>

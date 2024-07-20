@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade Calculator</title>
+</head>
+<body>
+
+
+
+    <h1>Grade Calculator</h1>
+    <form id="marksForm">
+        <label for="physics">Physics:</label>
+        <input type="number" id="physics" required><br><br>
+        <label for="chemistry">Chemistry:</label>
+        <input type="number" id="chemistry" required><br><br>
+        <label for="biology">Biology:</label>
+        <input type="number" id="biology" required><br><br>
+        <label for="mathematics">Mathematics:</label>
+        <input type="number" id="mathematics" required><br><br>
+        <label for="computer">Computer:</label>
+        <input type="number" id="computer" required><br><br>
+        <button type="button" onclick="calculateGrade()">Calculate Grade</button>
+    </form>
+
+    <h2 id="result"></h2>
+
+
+    
+
+    <script>
+
+
+        class Student {
+            constructor(physics, chemistry, biology, mathematics, computer) {
+                this.physics = physics;
+                this.chemistry = chemistry;
+                this.biology = biology;
+                this.mathematics = mathematics;
+                this.computer = computer;
+            }
+
+            calculatePercentage() {
+                let totalMarks = this.physics + this.chemistry + this.biology + this.mathematics + this.computer;
+                return (totalMarks / 500) * 100;
+            }
+
+            calculateGrade(percentage) {
+                if (percentage >= 90) {
+                    return 'A';
+                } else if (percentage >= 80) {
+                    return 'B';
+                } else if (percentage >= 70) {
+                    return 'C';
+                } else if (percentage >= 60) {
+                    return 'D';
+                } else if (percentage >= 50) {
+                    return 'E';
+                } else if (percentage >= 40) {
+                    return 'F';
+                } else {
+                    return 'Failed';
+                }
+            }
+        }
+
+        function calculateGrade() {
+            let physics = parseInt(document.getElementById('physics').value);
+            let chemistry = parseInt(document.getElementById('chemistry').value);
+            let biology = parseInt(document.getElementById('biology').value);
+            let mathematics = parseInt(document.getElementById('mathematics').value);
+            let computer = parseInt(document.getElementById('computer').value);
+
+            let student = new Student(physics, chemistry, biology, mathematics, computer);
+            let percentage = student.calculatePercentage();
+            let grade = student.calculateGrade(percentage);
+
+            document.getElementById('result').innerText = `Percentage: ${percentage}%, Grade: ${grade}`;
+        }
+
+      
+
+  </script>
+</body>
+</html>
